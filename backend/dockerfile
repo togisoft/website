@@ -1,0 +1,26 @@
+# Base İmage
+FROM node:18
+
+# Make Folder To Put Our Files In
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/backend
+
+# Set working directory so that all
+# subsequent command runs in this folder
+WORKDIR /usr/src/app/backend
+
+
+#Copy package json and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy our app
+COPY . .
+
+# Expose port to access server
+EXPOSE 8080
+
+RUN npm run build
+
+# Command to run our app
+CMD ["npm", "dist/main.js"]
